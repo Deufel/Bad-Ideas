@@ -123,7 +123,8 @@
     let ring = '';
     if ($_progress > 0) { const r = 220; const circ = 2 * Math.PI * r; const off = circ - ($_progress / 100) * circ; ring = '<circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-opacity=\'0.15\'/><circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-dasharray=\''+circ+'\' stroke-dashoffset=\''+off+'\' stroke-linecap=\'round\' transform=\'rotate(-90 256 256)\' />'; }
     let status = '';
-    if ($_status) status = '<rect x=\'0\' y=\'0\' width=\'512\' height=\'512\' rx=\'0\' fill=\'none\' stroke=\''+$_status+'\' stroke-width=\'28\'/>';
+    if ($_status) status = '<rect width=\'102\' height=\'512\' fill=\''+$_status+'\'/>';
+    const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'><defs><clipPath id=\'c\'><rect width=\'512\' height=\'512\' rx=\'102\'/></clipPath></defs><g clip-path=\'url(#c)\'><rect width=\'512\' height=\'512\' fill=\''+bg+'\'/>'+status+'</g>'+ring+txt+dot+badge+'</svg>';
     const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'>'+status+'<rect width=\'512\' height=\'512\' rx=\'102\' fill=\''+bg+'\'/>'+ring+txt+dot+badge+'</svg>';
     document.querySelector('#favicon').href = 'data:image/svg+xml,' + encodeURIComponent(svg);
   "
