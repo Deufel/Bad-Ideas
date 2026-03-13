@@ -106,30 +106,27 @@
 </div>
 
 <span
-  data-on-interval__750ms="if($_notify) $_pulse = !$_pulse"
-  data-on-interval__100ms="if($_progRun && $_progress < 100) $_progress = Number($_progress) + 1; if($_progress >= 100) $_progRun = false"
-  data-effect="
-    const dark = $_dark;
-    const fg = dark ? '#222' : '#fff';
-    const bg = $_color;
-    const l = $_letters || '_u';
-    const n = l.length;
-    let txt = '';
-    if (n === 1) txt = '<text x=\'256\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'358\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l+'</text>';
-    else txt = '<text x=\'170\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[0]+'</text><text x=\'341\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[1]+'</text>';
-    const dot = ($_notify && $_pulse) ? '<circle cx=\'420\' cy=\'92\' r=\'70\' fill=\'#e54\'/>' : '';
-    let badge = '';
-    if ($_count > 0) badge = '<rect x=\'280\' y=\'300\' width=\'220\' height=\'200\' rx=\'30\' fill=\'#e54\'/><text x=\'390\' y=\'410\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'180\' font-family=\'sans-serif\' font-weight=\'900\' fill=\'#fff\'>'+$_count+'</text>';
-    let ring = '';
-    if ($_progress > 0) { const r = 220; const circ = 2 * Math.PI * r; const off = circ - ($_progress / 100) * circ; ring = '<circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-opacity=\'0.15\'/><circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-dasharray=\''+circ+'\' stroke-dashoffset=\''+off+'\' stroke-linecap=\'round\' transform=\'rotate(-90 256 256)\' />'; }
-    let status = '';
-    if ($_status) status = '<rect width=\'102\' height=\'512\' fill=\''+$_status+'\'/>';
-    const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'><defs><clipPath id=\'c\'><rect width=\'512\' height=\'512\' rx=\'102\'/></clipPath></defs><g clip-path=\'url(#c)\'><rect width=\'512\' height=\'512\' fill=\''+bg+'\'/>'+status+'</g>'+ring+txt+dot+badge+'</svg>';
-    const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'>'+status+'<rect width=\'512\' height=\'512\' rx=\'102\' fill=\''+bg+'\'/>'+ring+txt+dot+badge+'</svg>';
-    document.querySelector('#favicon').href = 'data:image/svg+xml,' + encodeURIComponent(svg);
-  "
-  style="display:none"
-></span>
-
+    data-on-interval__750ms="if($_notify) $_pulse = !$_pulse"
+    data-on-interval__100ms="if($_progRun && $_progress < 100) $_progress = Number($_progress) + 1; if($_progress >= 100) $_progRun = false"
+    data-effect="
+        const dark = $_dark;
+        const fg = dark ? '#222' : '#fff';
+        const bg = $_color;
+        const l = $_letters || '_u';
+        const n = l.length;
+        let txt = '';
+        if (n === 1) txt = '<text x=\'256\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'358\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l+'</text>';
+        else txt = '<text x=\'170\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[0]+'</text><text x=\'341\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[1]+'</text>';
+        const dot = ($_notify && $_pulse) ? '<circle cx=\'420\' cy=\'92\' r=\'70\' fill=\'#e54\'/>' : '';
+        let badge = '';
+        if ($_count > 0) badge = '<rect x=\'280\' y=\'300\' width=\'220\' height=\'200\' rx=\'30\' fill=\'#e54\'/><text x=\'390\' y=\'410\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'180\' font-family=\'sans-serif\' font-weight=\'900\' fill=\'#fff\'>'+$_count+'</text>';
+        let ring = '';
+        if ($_progress > 0) { const r = 220; const circ = 2 * Math.PI * r; const off = circ - ($_progress / 100) * circ; ring = '<circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-opacity=\'0.15\'/><circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-dasharray=\''+circ+'\' stroke-dashoffset=\''+off+'\' stroke-linecap=\'round\' transform=\'rotate(-90 256 256)\' />'; }
+        let status = '';
+        if ($_status) status = '<rect width=\'102\' height=\'512\' fill=\''+$_status+'\'/>';
+        const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'><defs><clipPath id=\'c\'><rect width=\'512\' height=\'512\' rx=\'102\'/></clipPath></defs><g clip-path=\'url(#c)\'><rect width=\'512\' height=\'512\' fill=\''+bg+'\'/>'+status+'</g>'+ring+txt+dot+badge+'</svg>';
+        document.querySelector('#favicon').href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+      "
+      style="display:none" ></span>
 </body>
 </html>
