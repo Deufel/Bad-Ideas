@@ -11,7 +11,7 @@
     body { font-family: system-ui, sans-serif; min-height: 100vh; display: grid; place-items: center; background: #111; color: #eee; }
     .card { max-width: 36rem; padding: 2rem; border-radius: 1rem; background: #1a1a1a; border: 1px solid #333; display: flex; flex-direction: column; gap: 1.5rem; }
     h1 { font-size: 1.5rem; } h3 { font-size: 1rem; margin-top: 0.5rem; }
-    p { color: #999; line-height: 1.6; }
+    p, li { color: #999; line-height: 1.6; }
     code { background: #222; padding: 0.15em 0.4em; border-radius: 0.25rem; font-size: 0.85em; }
     .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
     button { padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #444; background: #222; color: #eee; font: inherit; cursor: pointer; }
@@ -25,10 +25,12 @@
     .fav-input:focus { outline: 2px solid #e54; outline-offset: 2px; }
     input[type=range] { accent-color: #e54; }
     kbd { background: #333; padding: 0.1em 0.4em; border-radius: 0.25rem; border: 1px solid #555; font-size: 0.85em; }
+    a { color: #e54; }
+    ul { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.3rem; }
   </style>
 </head>
 <body
-  data-signals="{_dark:false, _color:'oklch(50% 0.2 270)', _notify:false, _pulse:false, _letters:'_u', _count:0, _progress:0, _progRun:false, _status:''}"
+  data-signals="{_dark:false, _color:'oklch(50% 0.02 270)', _notify:false, _pulse:false, _letters:'_u', _count:0, _progress:0, _progRun:false, _status:''}"
   data-init="
     const mq = matchMedia('(prefers-color-scheme: dark)');
     $_dark = mq.matches;
@@ -37,8 +39,10 @@
 >
 
 <div class="card">
-  <h1>Dynamic Favicon</h1>
-  <p>Your browser tab icon reacts to signals in real time. Bookmark this page with <kbd>Ctrl</kbd>+<kbd>D</kbd> / <kbd>Cmd</kbd>+<kbd>D</kbd> to see the favicon persist in your bookmarks bar too.</p>
+  <div>
+    <h1>Dynamic Favicon</h1>
+    <p>Your browser tab icon reacts to signals in real time. <a href="https://deufel.github.io/Bad-Ideas/" target="_blank">GitHub</a></p>
+  </div>
 
   <h3>Letters</h3>
   <div class="controls">
@@ -47,12 +51,12 @@
 
   <h3>Color</h3>
   <div class="color-row">
-    <div class="swatch" style="background: oklch(30% 0 0)" data-on:click="$_color = 'oklch(30% 0 0)'"></div>
-    <div class="swatch" style="background: oklch(40% 0 0)" data-on:click="$_color = 'oklch(40% 0 0)'"></div>
-    <div class="swatch" style="background: oklch(50% 0 0)" data-on:click="$_color = 'oklch(50% 0 0)'"></div>
-    <div class="swatch" style="background: oklch(60% 0 0)" data-on:click="$_color = 'oklch(60% 0 0)'"></div>
-    <div class="swatch" style="background: oklch(70% 0 0)" data-on:click="$_color = 'oklch(70% 0 0)'"></div>
-    <div class="swatch" style="background: oklch(80% 0 0)" data-on:click="$_color = 'oklch(80% 0 0)'"></div>
+    <div class="swatch" style="background: oklch(30% 0.02 0)" data-on:click="$_color = 'oklch(30% 0.02 0)'"></div>
+    <div class="swatch" style="background: oklch(40% 0.02 0)" data-on:click="$_color = 'oklch(40% 0.02 0)'"></div>
+    <div class="swatch" style="background: oklch(50% 0.02 0)" data-on:click="$_color = 'oklch(50% 0.02 0)'"></div>
+    <div class="swatch" style="background: oklch(60% 0.02 0)" data-on:click="$_color = 'oklch(60% 0.02 0)'"></div>
+    <div class="swatch" style="background: oklch(70% 0.02 0)" data-on:click="$_color = 'oklch(70% 0.02 0)'"></div>
+    <div class="swatch" style="background: oklch(80% 0.02 0)" data-on:click="$_color = 'oklch(80% 0.02 0)'"></div>
     <button data-on:click="$_color = 'oklch(50% 0.2 ' + Math.floor(Math.random() * 360) + ')'">Random</button>
   </div>
 
@@ -68,8 +72,7 @@
 
   <h3>Unread count</h3>
   <div class="controls">
-    <button data-on:click="$_count = Math.min($_count + 1, 99)">+1</button>
-    <button data-on:click="$_count = Math.min($_count + 5, 99)">+5</button>
+    <button data-on:click="$_count = Math.min($_count + 1, 9)">+1</button>
     <button data-on:click="$_count = 0">Clear</button>
     <span data-text="$_count + ' unread'" style="color:#999; font-size:0.85rem;"></span>
   </div>
@@ -81,20 +84,30 @@
     <span data-text="Math.round($_progress) + '%'" style="color:#999; font-size:0.85rem;"></span>
   </div>
 
-  <h3>Status dot</h3>
+  <h3>Status</h3>
   <div class="controls">
-    <button data-on:click="$_status = $_status === 'green' ? '' : 'green'" data-class:active="$_status === 'green'" style="border-color:#2a2">Online</button>
-    <button data-on:click="$_status = $_status === 'orange' ? '' : 'orange'" data-class:active="$_status === 'orange'" style="border-color:#ea2">Away</button>
-    <button data-on:click="$_status = $_status === 'red' ? '' : 'red'" data-class:active="$_status === 'red'" style="border-color:#e44">Busy</button>
+    <button data-on:click="$_status = $_status === '#2a2' ? '' : '#2a2'" data-class:active="$_status === '#2a2'" style="border-color:#2a2">Online</button>
+    <button data-on:click="$_status = $_status === '#ea2' ? '' : '#ea2'" data-class:active="$_status === '#ea2'" style="border-color:#ea2">Away</button>
+    <button data-on:click="$_status = $_status === '#e44' ? '' : '#e44'" data-class:active="$_status === '#e44'" style="border-color:#e44">Busy</button>
     <button data-on:click="$_status = ''">Clear</button>
   </div>
 
-  <p class="note">Look at your browser tab — the favicon updates live. Bookmark this page to see the icon persist in your bookmarks bar. Progress ring auto-advances when running; drag the slider for manual control.</p>
+  <div>
+    <h3>How it works</h3>
+    <ul>
+      <li>The favicon is an SVG rebuilt as a <code>data:</code> URI every time a <a href="https://data-star.dev" target="_blank">Datastar</a> signal changes</li>
+      <li>A single <code>data-effect</code> reads all signals and constructs the SVG string — no canvas, no libraries</li>
+      <li>The notification dot pulses via <code>data-on-interval</code> toggling a boolean signal every 750ms</li>
+      <li>The progress ring uses SVG <code>stroke-dashoffset</code> driven by a percentage signal</li>
+      <li>Status outlines the entire icon with a colored border</li>
+      <li>Bookmark this page (<kbd>Ctrl</kbd>+<kbd>D</kbd> / <kbd>Cmd</kbd>+<kbd>D</kbd>) — the favicon persists in your bookmarks bar too</li>
+    </ul>
+  </div>
 </div>
 
 <span
   data-on-interval__750ms="if($_notify) $_pulse = !$_pulse"
-  data-on-interval__100ms="if($_progRun && $_progress < 100) $_progress = $_progress + 1; if($_progress >= 100) $_progRun = false"
+  data-on-interval__100ms="if($_progRun && $_progress < 100) $_progress = Number($_progress) + 1; if($_progress >= 100) $_progRun = false"
   data-effect="
     const dark = $_dark;
     const fg = dark ? '#222' : '#fff';
@@ -106,12 +119,12 @@
     else txt = '<text x=\'170\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[0]+'</text><text x=\'341\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[1]+'</text>';
     const dot = ($_notify && $_pulse) ? '<circle cx=\'420\' cy=\'92\' r=\'70\' fill=\'#e54\'/>' : '';
     let badge = '';
-    if ($_count > 0) { badge = '<text x=\'380\' y=\'440\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'280\' font-family=\'sans-serif\' font-weight=\'900\' fill=\'#e54\'>'+$_count+'</text>'; }
+    if ($_count > 0) badge = '<rect x=\'280\' y=\'300\' width=\'220\' height=\'200\' rx=\'30\' fill=\'#e54\'/><text x=\'390\' y=\'410\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'180\' font-family=\'sans-serif\' font-weight=\'900\' fill=\'#fff\'>'+$_count+'</text>';
     let ring = '';
     if ($_progress > 0) { const r = 220; const circ = 2 * Math.PI * r; const off = circ - ($_progress / 100) * circ; ring = '<circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-opacity=\'0.15\'/><circle cx=\'256\' cy=\'256\' r=\''+r+'\' fill=\'none\' stroke=\''+fg+'\' stroke-width=\'24\' stroke-dasharray=\''+circ+'\' stroke-dashoffset=\''+off+'\' stroke-linecap=\'round\' transform=\'rotate(-90 256 256)\' />'; }
-    let statusDot = '';
-    if ($_status) statusDot = '<rect x=\'8\' y=\'8\' width=\'496\' height=\'496\' rx=\'98\' fill=\'none\' stroke=\''+$_status+'\' stroke-width=\'16\'/>';
-    const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'512\' height=\'512\' rx=\'102\' fill=\''+bg+'\'/>'+ring+txt+dot+badge+statusDot+'</svg>';
+    let status = '';
+    if ($_status) status = '<rect x=\'0\' y=\'0\' width=\'512\' height=\'512\' rx=\'0\' fill=\'none\' stroke=\''+$_status+'\' stroke-width=\'28\'/>';
+    const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'>'+status+'<rect width=\'512\' height=\'512\' rx=\'102\' fill=\''+bg+'\'/>'+ring+txt+dot+badge+'</svg>';
     document.querySelector('#favicon').href = 'data:image/svg+xml,' + encodeURIComponent(svg);
   "
   style="display:none"
