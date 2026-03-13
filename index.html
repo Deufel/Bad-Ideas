@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Favicon with Datastar</title>
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.8/bundles/datastar.js"></script>
+  <link rel="icon" type="image/svg+xml" id="favicon">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+    body { font-family: system-ui, sans-serif; min-height: 100vh; display: grid; place-items: center; background: #111; color: #eee; }
+    .card { max-width: 32rem; padding: 2rem; border-radius: 1rem; background: #1a1a1a; border: 1px solid #333; display: flex; flex-direction: column; gap: 1.5rem; }
+    h1 { font-size: 1.5rem; }
+    p { color: #999; line-height: 1.6; }
+    code { background: #222; padding: 0.15em 0.4em; border-radius: 0.25rem; font-size: 0.85em; }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    button { padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #444; background: #222; color: #eee; font: inherit; cursor: pointer; }
+    button:hover { background: #333; }
+    button.active { background: #e54; border-color: #e54; color: #fff; }
+    .color-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .swatch { width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; border: 2px solid transparent; cursor: pointer; }
+    .swatch:hover { border-color: #fff; }
+    .note { font-size: 0.8rem; color: #666; }
+  </style>
+</head>
+<body
+  data-signals="{_dark:false, _color:'oklch(50% 0.2 270)', _notify:false, _pulse:false, _letters:'_u'}"
+  data-init="
+    const mq = matchMedia('(prefers-color-scheme: dark)');
+    $_dark = mq.matches;
+    mq.addEventListener('change', e => $_dark = e.matches);
+  "
+>
+
+<div class="card">
+  <h1>🎨 Dynamic Favicon</h1>
+  <p>Your browser tab icon reacts to signals in real time. Change the color, toggle dark mode, or fire a pulsing notification badge — all driven by <code>data-effect</code> rebuilding an SVG data URI.</p>
+
+  <h3>Color</h3>
+  <div class="color-row">
+    <div class="swatch" style="background: oklch(50% 0.2 270)" data-on:click="$_color = 'oklch(50% 0.2 270)'"></div>
+    <div class="swatch" style="background: oklch(50% 0.2 150)" data-on:click="$_color = 'oklch(50% 0.2 150)'"></div>
+    <div class="swatch" style="background: oklch(50% 0.2 30)" data-on:click="$_color = 'oklch(50% 0.2 30)'"></div>
+    <div class="swatch" style="background: oklch(50% 0.2 330)" data-on:click="$_color = 'oklch(50% 0.2 330)'"></div>
+    <div class="swatch" style="background: oklch(50% 0.2 90)" data-on:click="$_color = 'oklch(50% 0.2 90)'"></div>
+    <div class="swatch" style="background: oklch(50% 0.2 210)" data-on:click="$_color = 'oklch(50% 0.2 210)'"></div>
+    <button data-on:click="$_color = 'oklch(50% 0.2 ' + Math.floor(Math.random() * 360) + ')'">🎲 Random</button>
+  </div>
+
+  <h3>Controls</h3>
+  <div class="controls">
+    <button data-on:click="$_dark = !$_dark" data-class:active="$_dark">🌙 Dark bg</button>
+    <button data-on:click="$_notify = !$_notify; $_pulse = true" data-class:active="$_notify">🔴 Notification pulse</button>
+  </div>
+
+  <h3>Letters</h3>
+  <div class="controls">
+    <button data-on:click="$_letters = '_u'">_u</button>
+    <button data-on:click="$_letters = '🔥'">🔥</button>
+    <button data-on:click="$_letters = 'Hi'">Hi</button>
+    <button data-on:click="$_letters = '!!'">!!</button>
+  </div>
+
+  <p class="note">Look at your browser tab ↑ — the favicon updates live. The notification dot pulses by toggling a signal on an interval, rebuilding the SVG each tick.</p>
+</div>
+
+<span
+  data-on-interval__750ms="if($_notify) $_pulse = !$_pulse"
+  data-effect="
+    const dark = $_dark;
+    const fg = dark ? '#222' : '#fff';
+    const bg = $_color;
+    const l = $_letters;
+    const n = l.length;
+    let txt = '';
+    if (n === 1) txt = '<text x=\'256\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'358\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l+'</text>';
+    else txt = '<text x=\'170\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[0]+'</text><text x=\'341\' y=\'256\' text-anchor=\'middle\' dominant-baseline=\'central\' font-size=\'230\' font-family=\'sans-serif\' font-weight=\'700\' fill=\''+fg+'\'>'+l[1]+'</text>';
+    const dot = ($_notify && $_pulse) ? '<circle cx=\'420\' cy=\'92\' r=\'70\' fill=\'#e54\'/>' : '';
+    const svg = '<svg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'512\' height=\'512\' rx=\'102\' fill=\''+bg+'\'/>' + txt + dot + '</svg>';
+    document.querySelector('#favicon').href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+  "
+  style="display:none"
+></span>
+
+</body>
+</html>
